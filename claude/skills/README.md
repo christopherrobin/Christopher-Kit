@@ -8,6 +8,7 @@ Custom slash commands for Claude Code. Each skill is a markdown file with frontm
 |-------|---------|-------------|
 | [msg](msg/) | `/msg` | Generate a Conventional Commits message from your current diff |
 | [review-me](review-me/) | `/review-me` | Compare current branch to base and run a code review |
+| [grind](grind/) | `/grind` | Verify changes with tech-lead-orchestrator, then implement improvements |
 
 ## Setup
 
@@ -16,6 +17,7 @@ Copy the skill directories into your Claude config:
 ```bash
 cp -r msg ~/.claude/skills/msg
 cp -r review-me ~/.claude/skills/review-me
+cp -r grind ~/.claude/skills/grind
 ```
 
 Skills are automatically detected by Claude Code once placed in `~/.claude/skills/`.
