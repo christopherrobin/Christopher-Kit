@@ -16,6 +16,9 @@ Compare the current branch against its base branch and run a thorough code revie
    - Fall back to `main` if nothing is found
 
 2. Get the current branch with `git branch --show-current`
-   - If on the base branch itself, inform the user there's nothing to compare
 
-3. Use the **code-reviewer** agent to review all changes between the base branch and the current branch
+3. Determine what to review:
+   - If on a feature branch: review all changes between base branch and current branch
+   - If on the base branch: check for uncommitted changes (`git status -u` and `git diff`). If there are uncommitted or untracked changes, review those directly. If the working tree is clean, inform the user there's nothing to review.
+
+4. Use the **code-reviewer** agent to review the identified changes
