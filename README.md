@@ -6,6 +6,7 @@ A portable dev toolkit for setting up a familiar development environment on any 
 
 - **Ghostty** — Terminal config with Cyberdream color palette and semi-transparent background
 - **Claude Status Line** — Two-line status bar showing session info, git status, context usage, and rate limits
+- **Claude Skills** — Custom slash commands: `/msg` for commit messages, `/review-me` for code review
 
 ## Getting Started
 
@@ -24,8 +25,12 @@ Christopher-Kit/
 │   ├── config
 │   └── README.md
 ├── claude/
-│   └── statusline/       # Claude Code status line script
-│       ├── statusline-command.sh
+│   ├── statusline/       # Claude Code status line script
+│   │   ├── statusline-command.sh
+│   │   └── README.md
+│   └── skills/           # Custom slash commands
+│       ├── msg/          # /msg — generate commit messages
+│       ├── review-me/    # /review-me — code review
 │       └── README.md
 ├── CLAUDE.md
 ├── README.md

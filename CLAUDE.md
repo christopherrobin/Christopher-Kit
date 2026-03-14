@@ -12,8 +12,12 @@ Christopher-Kit/
 │   ├── config
 │   └── README.md
 ├── claude/
-│   └── statusline/       # Claude Code status line script
-│       ├── statusline-command.sh
+│   ├── statusline/       # Claude Code status line script
+│   │   ├── statusline-command.sh
+│   │   └── README.md
+│   └── skills/           # Custom slash commands
+│       ├── msg/          # /msg — generate commit messages
+│       ├── review-me/    # /review-me — code review
 │       └── README.md
 ```
 
