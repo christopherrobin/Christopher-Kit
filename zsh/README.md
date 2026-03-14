@@ -2,6 +2,8 @@
 
 Custom `.zshrc` with Powerlevel10k prompt, utility functions, and shell helpers.
 
+![Terminal preview](terminal-preview.png)
+
 ## Prerequisites
 
 - [Oh My Zsh](https://ohmyz.sh/) installed

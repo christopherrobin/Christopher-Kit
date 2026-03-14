@@ -2,16 +2,13 @@
 
 A two-line status bar for the Claude Code CLI that shows session info, git status, context usage, and rate limits at a glance.
 
-```
-⏱ 12m  project-name ❯ ↑0 ↓0 ❯  main    (line 1)
- ████████░░░░░░░ 53%   5h 12%   +42 -7  (line 2)
-```
+![Status line preview](statusline-preview.png)
 
 ## Prerequisites
 
 - [Nerd Font](https://github.com/romkatv/powerlevel10k#fonts) (e.g. MesloLGS NF) for icons
 - `jq` for JSON parsing
-- macOS Keychain access (for rate limit feature — uses Claude Code's OAuth token at runtime)
+- macOS Keychain access (for rate limit feature - uses Claude Code's OAuth token at runtime)
 
 ## Setup
 
@@ -53,6 +50,6 @@ cp statusline-command.sh ~/.claude/statusline-command.sh
 
 ## Notes
 
-- The rate limit feature fetches usage data from the Anthropic API using your Claude Code OAuth token stored in macOS Keychain. No credentials are hardcoded — they're read at runtime. This feature only works on macOS with an active Claude Code session.
-- Icons require a Nerd Font — without one they'll render as boxes.
+- The rate limit feature fetches usage data from the Anthropic API using your Claude Code OAuth token stored in macOS Keychain. No credentials are hardcoded - they're read at runtime. This feature only works on macOS with an active Claude Code session.
+- Icons require a Nerd Font - without one they'll render as boxes.
 - Usage data is cached in `/tmp/.claude_usage_cache` and refreshed every 60 seconds to avoid excessive API calls.

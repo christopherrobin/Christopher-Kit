@@ -9,7 +9,7 @@ Custom slash commands for Claude Code. Each skill is a markdown file with frontm
 | [msg](msg/) | `/msg` | Generate a Conventional Commits message from your current diff |
 | [review-me](review-me/) | `/review-me` | Compare current branch to base and run a code review |
 | [grind](grind/) | `/grind` | Verify changes with tech-lead-orchestrator, then implement improvements |
-| [audit](audit/) | `/audit` | Full codebase health check — architecture, security, quality |
+| [audit](audit/) | `/audit` | Full codebase health check - architecture, security, quality |
 | [scaffold](scaffold/) | `/scaffold` | Plan and build a new feature with tech-lead + specialists |
 | [deps](deps/) | `/deps` | Check for outdated, vulnerable, or unused dependencies |
 

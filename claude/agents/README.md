@@ -38,29 +38,29 @@ Agent names follow a consistent suffix pattern:
 
 | Suffix | Role | Examples |
 |---|---|---|
-| **expert** | Domain specialist — implements and advises within a specific technology | typescript-expert, react-nextjs-expert, aws-expert |
-| **architect** | Design-only — produces specs and plans, never implements | api-architect, scraper-architect |
-| **orchestrator / analyst / configurator** | Coordination — plans tasks, routes to specialists, never implements directly | tech-lead-orchestrator, project-analyst, team-configurator |
+| **expert** | Domain specialist - implements and advises within a specific technology | typescript-expert, react-nextjs-expert, aws-expert |
+| **architect** | Design-only - produces specs and plans, never implements | api-architect, scraper-architect |
+| **orchestrator / analyst / configurator** | Coordination - plans tasks, routes to specialists, never implements directly | tech-lead-orchestrator, project-analyst, team-configurator |
 | **Unique names** | Earned exceptions where the name better describes the role | code-reviewer, code-archaeologist, performance-optimizer |
 
 ## Agents Included
 
 ### Core Specialists
 Meta-development activities that apply across any project:
-- **code-reviewer** — Code review and security auditing
-- **performance-optimizer** — Performance profiling and optimization
-- **playwright-expert** — E2E testing and browser automation
-- **scraper-architect** — Web scraping architecture and data pipelines
-- **documentation-expert** — READMEs, API docs, architecture guides
-- **code-archaeologist** — Codebase exploration and documentation
-- **skill-expert** — Create, review, and update Claude Code skills
-- **agent-expert** — Create, review, and update Claude Code agent definitions
+- **code-reviewer** - Code review and security auditing
+- **performance-optimizer** - Performance profiling and optimization
+- **playwright-expert** - E2E testing and browser automation
+- **scraper-architect** - Web scraping architecture and data pipelines
+- **documentation-expert** - READMEs, API docs, architecture guides
+- **code-archaeologist** - Codebase exploration and documentation
+- **skill-expert** - Create, review, and update Claude Code skills
+- **agent-expert** - Create, review, and update Claude Code agent definitions
 
 ### Orchestrators (3)
 High-level planning and coordination:
-- **project-analyst** — Detect tech stacks and route to specialists
-- **team-configurator** — Auto-configure AI team for your project
-- **tech-lead-orchestrator** — Plan and coordinate multi-step tasks
+- **project-analyst** - Detect tech stacks and route to specialists
+- **team-configurator** - Auto-configure AI team for your project
+- **tech-lead-orchestrator** - Plan and coordinate multi-step tasks
 
 ### Framework Specialists
 - **Python**: python-expert, testing-expert, performance-expert, security-expert, web-scraping-expert, devops-cicd-expert
@@ -72,14 +72,14 @@ High-level planning and coordination:
 
 ### Universal Specialists
 Cross-framework tools:
-- **api-architect** — REST/GraphQL design
-- **openapi-contract-expert** — Contract-first API development and client generation
-- **auth-integration-expert** — Authentication/authorization (NextAuth, Auth.js, OAuth)
-- **backend-expert** — Framework-agnostic backend
-- **frontend-expert** — Framework-agnostic frontend
-- **tailwind-css-expert** — Tailwind CSS styling
-- **typescript-expert** — TypeScript patterns and best practices
-- **aws-expert** — AWS services integration
+- **api-architect** - REST/GraphQL design
+- **openapi-contract-expert** - Contract-first API development and client generation
+- **auth-integration-expert** - Authentication/authorization (NextAuth, Auth.js, OAuth)
+- **backend-expert** - Framework-agnostic backend
+- **frontend-expert** - Framework-agnostic frontend
+- **tailwind-css-expert** - Tailwind CSS styling
+- **typescript-expert** - TypeScript patterns and best practices
+- **aws-expert** - AWS services integration
 
 ## Adding a New Agent
 

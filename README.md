@@ -2,14 +2,17 @@
 
 A portable dev toolkit for setting up a familiar development environment on any machine. Clone the repo, copy or symlink the configs you need, and get to work.
 
+![Terminal preview](zsh/terminal-preview.png)
+![Status line preview](claude/statusline/statusline-preview.png)
+
 ## What's Included
 
-- **Zsh** — Custom `.zshrc` with Powerlevel10k, utility functions, and shell helpers
-- **Ghostty** — Terminal config with Cyberdream color palette and semi-transparent background
-- **Claude Status Line** — Two-line status bar showing session info, git status, context usage, and rate limits
-- **Claude Skills** — Custom slash commands: `/msg` for commit messages, `/review-me` for code review
-- **Claude Agents** — Specialized AI agents for Claude Code (orchestrators, framework experts, and more)
-- **Claude Settings** — Example settings.json with MCP server configs (Context7, MUI, Tailwind, GitHub, AWS)
+- **Zsh** - Custom `.zshrc` with Powerlevel10k, utility functions, and shell helpers
+- **Ghostty** - Terminal config with Cyberdream color palette and semi-transparent background
+- **Claude Status Line** - Two-line status bar showing session info, git status, context usage, and rate limits
+- **Claude Skills** - Custom slash commands: `/msg` for commit messages, `/review-me` for code review
+- **Claude Agents** - Specialized AI agents for Claude Code (orchestrators, framework experts, and more)
+- **Claude Settings** - Example settings.json with MCP server configs (Context7, MUI, Tailwind, GitHub, AWS)
 
 ## Getting Started
 
@@ -35,8 +38,8 @@ Christopher-Kit/
 │   │   ├── statusline-command.sh
 │   │   └── README.md
 │   ├── skills/           # Custom slash commands
-│   │   ├── msg/          # /msg — generate commit messages
-│   │   ├── review-me/    # /review-me — code review
+│   │   ├── msg/          # /msg - generate commit messages
+│   │   ├── review-me/    # /review-me - code review
 │   │   └── README.md
 │   ├── agents/           # Specialized AI agents
 │   │   ├── core/         # Code review, testing, docs, performance
@@ -54,7 +57,9 @@ Christopher-Kit/
 
 ## Customization
 
-These configs reflect one person's preferences. Fork the repo and adapt anything to suit your own workflow — swap keybindings, change themes, adjust paths.
+These configs reflect one person's preferences. Fork the repo and adapt anything to suit your own workflow - swap keybindings, change themes, adjust paths.
+
+The agents and skills included here are a solid starting point, but the best ones you'll ever use are the ones you write yourself. Use the `skill-expert` and `agent-expert` agents to create your own, tailored to how you actually work.
 
 ## License
 
