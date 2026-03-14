@@ -9,6 +9,9 @@ Custom slash commands for Claude Code. Each skill is a markdown file with frontm
 | [msg](msg/) | `/msg` | Generate a Conventional Commits message from your current diff |
 | [review-me](review-me/) | `/review-me` | Compare current branch to base and run a code review |
 | [grind](grind/) | `/grind` | Verify changes with tech-lead-orchestrator, then implement improvements |
+| [audit](audit/) | `/audit` | Full codebase health check — architecture, security, quality |
+| [scaffold](scaffold/) | `/scaffold` | Plan and build a new feature with tech-lead + specialists |
+| [deps](deps/) | `/deps` | Check for outdated, vulnerable, or unused dependencies |
 
 ## Setup
 
@@ -18,6 +21,9 @@ Copy the skill directories into your Claude config:
 cp -r msg ~/.claude/skills/msg
 cp -r review-me ~/.claude/skills/review-me
 cp -r grind ~/.claude/skills/grind
+cp -r audit ~/.claude/skills/audit
+cp -r scaffold ~/.claude/skills/scaffold
+cp -r deps ~/.claude/skills/deps
 ```
 
 Skills are automatically detected by Claude Code once placed in `~/.claude/skills/`.
