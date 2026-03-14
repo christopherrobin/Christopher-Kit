@@ -6,18 +6,15 @@ Custom `.zshrc` with Powerlevel10k prompt, utility functions, and shell helpers.
 
 - [Oh My Zsh](https://ohmyz.sh/) installed
 - [Powerlevel10k](https://github.com/romkatv/powerlevel10k) theme installed
-- [Nerd Font](https://github.com/romkatv/powerlevel10k#fonts) (e.g., MesloLGS NF) for emoji support
+- [Nerd Font](https://github.com/romkatv/powerlevel10k#fonts) (e.g., MesloLGS NF) for prompt symbols and shell function emoji
 
 ## Setup
 
-Copy or append to your existing `.zshrc`:
+Copy the config files to your home directory:
 
 ```bash
-# Replace entirely
 cp .zshrc ~/.zshrc
-
-# Or append the functions you want
-cat .zshrc >> ~/.zshrc
+cp .p10k.zsh ~/.p10k.zsh
 ```
 
 Restart your shell or run `source ~/.zshrc` to apply.
@@ -26,7 +23,7 @@ Restart your shell or run `source ~/.zshrc` to apply.
 
 ### Shell Framework
 - Oh My Zsh with `git` and `wd` plugins
-- Powerlevel10k theme with instant prompt (quiet mode)
+- Powerlevel10k with Pure style, Snazzy color palette, single-line minimalist prompt
 
 ### Color & Emoji Variables
 ANSI color codes (`$BOLD`, `$CYAN`, `$MAGENTA`, `$ENDCOLOR`) and emoji unicode variables (`$BEER`, `$NERD`) used by the utility functions.
@@ -53,4 +50,4 @@ ANSI color codes (`$BOLD`, `$CYAN`, `$MAGENTA`, `$ENDCOLOR`) and emoji unicode v
 - Edit the emoji variables to use your preferred icons
 - Modify `custom_prompt()` to change the prompt style
 - Add your own navigation functions (e.g., shortcuts to project directories)
-- The `config` help text updates automatically if you add new functions
+- Update the `commands()` function when you add new functions to keep the help text current
