@@ -15,9 +15,15 @@ Christopher-Kit/
 │   ├── statusline/       # Claude Code status line script
 │   │   ├── statusline-command.sh
 │   │   └── README.md
-│   └── skills/           # Custom slash commands
-│       ├── msg/          # /msg — generate commit messages
-│       ├── review-me/    # /review-me — code review
+│   ├── skills/           # Custom slash commands
+│   │   ├── msg/          # /msg — generate commit messages
+│   │   ├── review-me/    # /review-me — code review
+│   │   └── README.md
+│   └── agents/           # Specialized AI agents
+│       ├── core/         # Code review, testing, docs, performance
+│       ├── orchestrators/ # Project analysis, team config, tech lead
+│       ├── specialized/  # Framework experts (React, Python, Prisma, etc.)
+│       ├── universal/    # Cross-framework specialists
 │       └── README.md
 ```
 
@@ -46,6 +52,16 @@ This repo may be released publicly. Before adding any file:
 - These are config files and shell scripts, not applications — don't over-engineer
 - No abstraction layers or templating unless there's a clear need
 - Flat, obvious file organization over clever nesting
+
+### Coding Philosophy
+
+All code produced by agents in this toolkit should follow these principles:
+
+- **DRY** — Don't repeat yourself. Extract reusable utilities instead of copy-pasting. But don't abstract prematurely — wait until a pattern is clear before extracting.
+- **Functional over imperative** — Prefer pure functions over side effects. Use `map`/`filter`/`reduce` over imperative loops. Compose small functions over writing monolithic ones.
+- **Immutable by default** — Use `const`, `readonly`, and immutable data structures. Mutate only when there's a clear performance reason.
+- **Composable and reusable** — Design functions and components for reuse from the start. Small, focused units that compose together.
+- **Scalable patterns** — Write code that works for 10 items and 10,000 items. Consider data growth, not just current state.
 
 ## Adding New Content
 
