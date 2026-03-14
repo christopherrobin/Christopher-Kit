@@ -3,16 +3,20 @@
 A portable dev toolkit for setting up a familiar development environment on any machine. Clone the repo, copy or symlink the configs you need, and get to work.
 
 ![Terminal preview](zsh/terminal-preview.png)
+*Shell startup with myinfo() and Powerlevel10k Pure prompt*
+
 ![Status line preview](claude/statusline/statusline-preview.png)
+*Claude Code status line showing session time, git status, context usage, and lines changed*
 
 ## What's Included
 
 - **Zsh** - Custom `.zshrc` with Powerlevel10k, utility functions, and shell helpers
 - **Ghostty** - Terminal config with Cyberdream color palette and semi-transparent background
-- **Claude Status Line** - Two-line status bar showing session info, git status, context usage, and rate limits
-- **Claude Skills** - Custom slash commands: `/msg` for commit messages, `/review-me` for code review
-- **Claude Agents** - Specialized AI agents for Claude Code (orchestrators, framework experts, and more)
-- **Claude Settings** - Example settings.json with MCP server configs (Context7, MUI, Tailwind, GitHub, AWS)
+- **Claude Code**
+  - **Status Line** - Two-line status bar showing session time, git status, context usage, and rate limits
+  - **Skills** - Custom slash commands (`/msg`, `/review-me`, `/grind`, `/audit`, `/scaffold`, `/deps`)
+  - **Agents** - Specialized AI agents (orchestrators, framework experts, and more)
+  - **Settings** - Example settings.json with MCP server configs (Context7, MUI, Tailwind, GitHub, AWS)
 
 ## Getting Started
 
