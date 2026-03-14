@@ -4,6 +4,7 @@ A portable dev toolkit for setting up a familiar development environment on any 
 
 ## What's Included
 
+- **Zsh** — Custom `.zshrc` with Powerlevel10k, utility functions, and shell helpers
 - **Ghostty** — Terminal config with Cyberdream color palette and semi-transparent background
 - **Claude Status Line** — Two-line status bar showing session info, git status, context usage, and rate limits
 - **Claude Skills** — Custom slash commands: `/msg` for commit messages, `/review-me` for code review
@@ -23,6 +24,9 @@ Copy or symlink the configs you need to their expected locations. Setup instruct
 
 ```
 Christopher-Kit/
+├── zsh/                  # Zsh shell config
+│   ├── .zshrc
+│   └── README.md
 ├── ghostty/              # Ghostty terminal config
 │   ├── config
 │   └── README.md
