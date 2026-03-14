@@ -8,11 +8,16 @@ Configs and tools are organized by the application or tool they belong to:
 
 ```
 Christopher-Kit/
-├── ghostty/       # Ghostty terminal config
-├── claude/        # Claude tools and scripts
+├── ghostty/              # Ghostty terminal config
+│   ├── config
+│   └── README.md
+├── claude/
+│   └── statusline/       # Claude Code status line script
+│       ├── statusline-command.sh
+│       └── README.md
 ```
 
-Each top-level directory corresponds to a single tool or application. Place related files together under the appropriate directory.
+Each top-level directory corresponds to a single tool or application. Subdirectories group related features (e.g., `claude/statusline/`). Each directory includes a README with prerequisites and setup instructions.
 
 ## Guidelines
 

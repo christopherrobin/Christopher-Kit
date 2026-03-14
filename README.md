@@ -4,10 +4,8 @@ A portable dev toolkit for setting up a familiar development environment on any 
 
 ## What's Included
 
-- **Ghostty** — Terminal emulator configuration
-- **Claude** — Custom tools, scripts, and status line config
-
-More configs and tools will be added over time.
+- **Ghostty** — Terminal config with Cyberdream color palette and semi-transparent background
+- **Claude Status Line** — Two-line status bar showing session info, git status, context usage, and rate limits
 
 ## Getting Started
 
@@ -22,13 +20,16 @@ Copy or symlink the configs you need to their expected locations. Setup instruct
 
 ```
 Christopher-Kit/
-├── ghostty/       # Ghostty terminal config
-├── claude/        # Claude tools and scripts
-├── README.md
+├── ghostty/              # Ghostty terminal config
+│   ├── config
+│   └── README.md
+├── claude/
+│   └── statusline/       # Claude Code status line script
+│       ├── statusline-command.sh
+│       └── README.md
 ├── CLAUDE.md
+├── README.md
 └── LICENSE
-
-Directories are created as configs are added.
 ```
 
 ## Customization
