@@ -106,7 +106,7 @@ Specialist in Python performance optimization -- profiling, async patterns, memo
 - Code quality review --> code-reviewer
 - Database schema design --> prisma-database-expert or backend-expert
 - Deployment and scaling --> devops-cicd-expert (Python)
-- Security implications of caching --> security-expert (Python)
+- Security implications of caching --> python-security-expert
 
 ## Edge Cases
 

@@ -89,7 +89,7 @@ Specialist in DevOps automation for Python projects -- containerization, CI/CD p
 ## Delegation
 
 - Python code quality --> python-expert
-- Application security --> security-expert (Python)
+- Application security --> python-security-expert
 - Performance tuning --> performance-expert (Python)
 - AWS infrastructure --> aws-expert
 - API design --> api-architect

@@ -63,10 +63,10 @@ High-level planning and coordination:
 - **tech-lead-orchestrator** - Plan and coordinate multi-step tasks
 
 ### Framework Specialists
-- **Python**: python-expert, testing-expert, performance-expert, security-expert, web-scraping-expert, devops-cicd-expert
+- **Python**: python-expert, testing-expert, performance-expert, python-security-expert, web-scraping-expert, devops-cicd-expert
 - **React**: react-component-expert, react-nextjs-expert, material-ui-expert, jest-react-testing-expert
 - **React Native**: react-native-expert, expo-expert
-- **Node.js**: express-tsoa-expert
+- **Node.js**: express-tsoa-expert, fastify-expert, vitest-expert
 - **Database**: prisma-database-expert, mysql-prisma-expert, postgresql-prisma-expert
 - **Firebase**: firebase-expert
 
@@ -80,6 +80,7 @@ Cross-framework tools:
 - **tailwind-css-expert** - Tailwind CSS styling
 - **typescript-expert** - TypeScript patterns and best practices
 - **aws-expert** - AWS services integration
+- **node-security-expert** - Node.js security (JWT/jose, bcryptjs, OWASP, rate limiting)
 
 ## Adding a New Agent
 

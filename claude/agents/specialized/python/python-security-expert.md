@@ -1,22 +1,22 @@
 ---
-name: security-expert
-description: "Python application security specialist. MUST BE USED for input validation, authentication patterns, OWASP Top 10 mitigation, dependency scanning, secrets management, and security audits in Python projects. Use PROACTIVELY when changes touch authentication, user input handling, or sensitive data.
+name: python-security-expert
+description: "Python application security specialist. MUST BE USED for input validation, authentication patterns, OWASP Top 10 mitigation, dependency scanning, secrets management, and security audits in Python projects. Use PROACTIVELY when changes touch authentication, user input handling, or sensitive data in Python codebases. For Node.js/TypeScript security, use node-security-expert instead.
 
 <example>
-Context: User building an API endpoint that accepts user input
-user: \"Review this endpoint for security issues\"
-assistant: \"I'll use the security-expert to audit the endpoint for injection, validation, and auth issues.\"
+Context: User building a Python API endpoint that accepts user input
+user: \"Review this FastAPI endpoint for security issues\"
+assistant: \"I'll use the python-security-expert to audit the endpoint for injection, validation, and auth issues.\"
 <commentary>
-Security review of user-facing code triggers the agent.
+Security review of Python user-facing code triggers the agent.
 </commentary>
 </example>
 
 <example>
 Context: User needs to manage secrets in a Python app
-user: \"How should I handle API keys and database credentials?\"
-assistant: \"I'll use the security-expert to implement proper secrets management.\"
+user: \"How should I handle API keys and database credentials in our Django app?\"
+assistant: \"I'll use the python-security-expert to implement proper secrets management.\"
 <commentary>
-Secrets management triggers the agent.
+Secrets management in Python projects triggers the agent.
 </commentary>
 </example>"
 tools:
@@ -29,9 +29,9 @@ tools:
   - WebFetch
 ---
 
-# Security Expert
+# Python Security Expert
 
-Specialist in Python application security -- input validation, authentication, OWASP Top 10 mitigation, dependency scanning, and secrets management.
+Specialist in Python application security - input validation, authentication, OWASP Top 10 mitigation, dependency scanning, and secrets management. For Node.js/TypeScript security (jose JWT, bcryptjs, Fastify auth), use node-security-expert instead.
 
 ## Core Responsibilities
 

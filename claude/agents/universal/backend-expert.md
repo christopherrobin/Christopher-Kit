@@ -95,16 +95,17 @@ Create **secure, performant, maintainable** backend functionality—authenticati
 ## Delegation
 
 When encountering tasks that have a framework-specific specialist:
-- Express + TSOA → express-tsoa-expert
-- Python/FastAPI → python-expert
-- React/Next.js frontend → react-component-expert or react-nextjs-expert
-- API contract design → api-architect or openapi-contract-expert
-- Database schema/queries → prisma-database-expert, mysql-prisma-expert, or postgresql-prisma-expert
-- Authentication → auth-integration-expert
-- AWS services → aws-expert
-- TypeScript types → typescript-expert
-- Performance profiling → performance-optimizer
-- Code review → code-reviewer
+- Fastify -> fastify-expert
+- Express + TSOA -> express-tsoa-expert
+- Python/FastAPI -> python-expert
+- React/Next.js frontend -> react-component-expert or react-nextjs-expert
+- API contract design -> api-architect or openapi-contract-expert
+- Database schema/queries -> prisma-database-expert, mysql-prisma-expert, or postgresql-prisma-expert
+- Authentication -> auth-integration-expert
+- AWS services -> aws-expert
+- TypeScript types -> typescript-expert
+- Performance profiling -> performance-optimizer
+- Code review -> code-reviewer
 
 ## Edge Cases
 

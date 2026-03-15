@@ -41,6 +41,7 @@ Single deliverable: an **authoritative specification** that any language-specifi
 - `grep -rn "router\.\(get\|post\|put\|delete\|patch\)" --include="*.ts" src/` - Express route definitions
 - `grep -rn "export.*GET\|export.*POST\|export.*PUT\|export.*DELETE" --include="*.ts" app/api/` - Next.js route handlers
 - `grep -rn "@Get\|@Post\|@Put\|@Delete\|@Route" --include="*.ts" src/` - TSOA/decorator-based routes
+- `grep -rn "fastify\.\(get\|post\|put\|delete\|patch\)" --include="*.ts" src/` - Fastify route definitions
 - `ls *.yaml *.yml 2>/dev/null | grep -i "openapi\|swagger"` - Existing specs
 
 ### Analyze Existing Patterns
@@ -147,6 +148,7 @@ Single deliverable: an **authoritative specification** that any language-specifi
 |---------|----------|------|
 | Need to generate OpenAPI spec or typed client | openapi-contract-expert | Spec validation and codegen |
 | Implementing endpoints in Express/TSOA | express-tsoa-expert | Route implementation |
+| Implementing endpoints in Fastify | fastify-expert | Route implementation |
 | Implementing endpoints in Next.js | react-nextjs-expert | API route implementation |
 | Auth scheme implementation (OAuth, JWT) | auth-integration-expert | Auth flow details |
 | Database schema for API resources | prisma-database-expert | Data model design |

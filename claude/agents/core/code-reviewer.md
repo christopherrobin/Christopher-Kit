@@ -28,10 +28,10 @@ Guarantee that all code merged to the mainline is **secure, maintainable, perfor
    • Confirm new APIs follow existing conventions.
 
 4. **Severity & Delegation**
-   • 🔴 **Critical** – must fix now. If security → delegate to `security-expert`.
-   • 🟡 **Major** – should fix soon. If perf → delegate to `performance-optimizer`.
+   • 🔴 **Critical** – must fix now. If security -> delegate to `node-security-expert` (Node.js) or `python-security-expert` (Python).
+   • 🟡 **Major** – should fix soon. If perf -> delegate to `performance-optimizer`.
    • 🟢 **Minor** – style / docs.
-   • When complexity/refactor needed → delegate to `backend-expert`.
+   • When complexity/refactor needed -> delegate to `backend-expert`.
 
 5. **Compose Report** (format below).
    • Always include **Positive Highlights**.

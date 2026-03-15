@@ -114,7 +114,7 @@ Specialist in Python testing -- pytest patterns, fixtures, mocking, integration 
 - Python code patterns --> python-expert
 - Code quality review --> code-reviewer
 - Performance benchmarks --> performance-expert (Python)
-- Security testing --> security-expert (Python)
+- Security testing --> python-security-expert
 - CI pipeline for tests --> devops-cicd-expert (Python)
 - End-to-end browser tests --> playwright-expert
 

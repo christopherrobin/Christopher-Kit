@@ -21,7 +21,8 @@ Uncover the real structure and quality of the codebase, then deliver a **compreh
    |---------|--------|---------|
    | Documentation required | `documentation-expert` | “Full map & findings.” |
    | Performance issues | `performance-optimizer` | “Bottlenecks in X/Y.” |
-   | Security risks | `security-expert` | “Vulnerabilities at A/B.” |
+   | Security risks (Python) | `python-security-expert` | “Vulnerabilities at A/B.” |
+   | Security risks (Node.js) | `node-security-expert` | “Vulnerabilities at A/B.” |
 
 ## Required Output Format  
 
@@ -78,8 +79,8 @@ Bulleted list with file references and impact.
 ## 9. Recommended Actions (Prioritised)
 | Priority | Action | Owner Sub-Agent |
 |----------|--------|-----------------|
-| P0 | Encrypt API keys | security-expert |
-| P1 | Enable CSRF & rate limiting | security-expert |
+| P0 | Encrypt API keys | python-security-expert or node-security-expert |
+| P1 | Enable CSRF & rate limiting | python-security-expert or node-security-expert |
 | P2 | Add frontend tests | jest-react-testing-expert |
 | … | … | … |
 

@@ -124,6 +124,7 @@ Provide a structured snapshot of the project's languages, frameworks, architectu
 | Signal | Framework / Tool | Recommended Agent | Confidence |
 |--------|------------------|-------------------|------------|
 | **Backend** |
+| `fastify` in package.json | Fastify | fastify-expert | High |
 | `express` in package.json | Express.js | backend-expert | High |
 | `tsoa` in package.json or `tsoa.json` | TSOA | express-tsoa-expert | High |
 | `fastapi` in requirements.txt | FastAPI | python-expert | High |
@@ -149,6 +150,8 @@ Provide a structured snapshot of the project's languages, frameworks, architectu
 | **Auth** |
 | `next-auth` or `@auth/core` in package.json | Auth.js | auth-integration-expert | High |
 | `[...nextauth]` route file | NextAuth | auth-integration-expert | High |
+| `jose` in package.json | JWT/jose | node-security-expert | High |
+| `bcryptjs` in package.json | Password hashing | node-security-expert | High |
 | **API Contracts** |
 | `openapi` or `swagger` spec files | OpenAPI | openapi-contract-expert | High |
 | `@hey-api` in package.json | Hey-API | openapi-contract-expert | High |
@@ -162,6 +165,7 @@ Provide a structured snapshot of the project's languages, frameworks, architectu
 | `jest` in package.json | Jest | jest-react-testing-expert | High |
 | `@testing-library/react` in package.json | RTL | jest-react-testing-expert | High |
 | `@playwright/test` in package.json | Playwright | playwright-expert | High |
+| `vitest` in package.json | Vitest | vitest-expert | High |
 | `pytest` in requirements.txt | Pytest | testing-expert | High |
 | **Monorepo** |
 | `nx.json` / `turbo.json` | Monorepo tool | tech-lead-orchestrator | Medium |

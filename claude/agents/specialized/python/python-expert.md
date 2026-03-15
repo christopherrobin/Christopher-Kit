@@ -92,7 +92,7 @@ Specialist in modern Python 3.12+ development -- type-safe, async-first, well-st
 - API design and contracts --> api-architect
 - Database schema and queries --> prisma-database-expert or backend-expert
 - Test strategy and implementation --> testing-expert (Python)
-- Security concerns --> security-expert (Python)
+- Security concerns --> python-security-expert
 - Deployment and CI/CD --> devops-cicd-expert (Python)
 - Auth flows --> auth-integration-expert
 
