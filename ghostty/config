@@ -13,6 +13,7 @@ cursor-color = #ff69b4
 cursor-text = #16181a
 selection-background = #3c4048
 selection-foreground = #ffffff
+split-divider-color = #bd5eff
 
 # Cyberdream palette
 palette = 0=#16181a
