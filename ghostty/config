@@ -6,7 +6,7 @@ adjust-cell-height = 2
 
 # Window
 background = #0f1115
-background-opacity = 0.92
+background-opacity = 0.90
 background-blur-radius = 20
 foreground = #ffffff
 cursor-color = #ff69b4

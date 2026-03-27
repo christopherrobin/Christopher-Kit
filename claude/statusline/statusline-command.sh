@@ -157,7 +157,7 @@ if [ "$fetch_usage" = true ]; then
       -H "Authorization: Bearer ${access_token}" \
       -H "anthropic-beta: oauth-2025-04-20" \
       "https://api.anthropic.com/api/oauth/usage" 2>/dev/null)
-    if [ -n "$usage_json" ] && echo "$usage_json" | jq -e '.' >/dev/null 2>&1; then
+    if [ -n "$usage_json" ] && echo "$usage_json" | jq -e '.five_hour' >/dev/null 2>&1; then
       echo "$usage_json" > "$usage_cache"
     fi
   fi
@@ -175,11 +175,13 @@ fi
 icon_folder=$(printf '\xef\x81\xbb')
 icon_git_branch=$(printf '\xef\x84\xa6')
 icon_delta=$(printf '\xef\x81\x80')
-icon_chip=$(printf '\xef\x8b\x9b')
+icon_chip=$(printf '\xef\x93\xad')
 icon_fire=$(printf '\xef\x92\x90')
 icon_rocket=$(printf '\xef\x84\xb5')
-icon_bolt=$(printf '\xef\x83\xa7')
+icon_bolt=$(printf '\xf3\xb0\x93\x85')
 icon_lock=$(printf '\xef\x80\xa3')
+icon_robot=$(printf '\xee\xb8\x8d')
+icon_clock=$(printf '\xef\x94\xa0')
 
 # ── ANSI colors ──────────────────────────────────────────────────────────────
 cyan=$'\033[36m'
@@ -202,13 +204,13 @@ line1=""
 # Session duration
 if [ -n "$session_dur" ]; then
   bright_cyan=$'\033[38;5;117m'
-  line1="${line1}${light_grey}⏱${reset} ${bright_cyan}${session_dur}${reset}  "
+  line1="${line1}${bright_cyan}${icon_clock}${reset} ${bright_cyan}${session_dur}${reset}  "
 fi
 
 # Project name
 if [ -n "$project_name" ]; then
   almost_white=$'\033[38;5;253m'
-  line1="${line1}${light_grey}${icon_folder}${reset} ${almost_white}${bold}${project_name}${reset} ❯"
+  line1="${line1}${light_grey}${icon_folder}${reset} ${light_grey}${project_name}${reset} ❯"
 fi
 
 # Worktree
@@ -224,7 +226,10 @@ if [ -n "$git_branch" ]; then
   darker_pink=$'\033[38;5;132m'
   mg=$'\033[38;5;71m'
   mr=$'\033[38;5;167m'
-  line1="${line1} ${mg}↑${reset}${almost_white}${ahead:-0}${reset} ${mr}↓${reset}${almost_white}${behind:-0}${reset} ❯ ${muted_pink}${icon_git_branch}${reset} ${bold}${muted_pink}${git_branch}${reset}${muted_pink}${git_status_icon}${reset}"
+  muted_green=$'\033[38;5;71m'
+  muted_red=$'\033[38;5;167m'
+  diff_part=" ${muted_green}+${lines_added}${reset} ${muted_red}-${lines_removed}${reset}"
+  line1="${line1}${diff_part} ❯ ${muted_pink}${icon_git_branch}${reset} ${bold}${muted_pink}${git_branch}${reset}${muted_pink}${git_status_icon}${reset}"
 fi
 
 # Agent
@@ -245,6 +250,25 @@ if [ -n "$bar" ] && [ -n "$used_pct" ]; then
   line2="${line2}${light_grey}${icon_chip}${reset} ${bar_rendered} ${bar_color}${used_pct}%${reset}${ctx_warning}"
 fi
 if [ -n "$usage_5h" ]; then
+  # Session limit bar (10 chars wide, gradient like context bar)
+  session_bar=""
+  session_filled=$(awk "BEGIN {printf \"%d\", ($usage_5h * 10 / 100 + 0.5)}")
+  session_empty=$((10 - session_filled))
+  for ((i=0; i<session_filled; i++)); do
+    pos_pct=$((i * 100 / 10))
+    if [ "$pos_pct" -lt 50 ]; then
+      sc="140"   # muted purple
+    elif [ "$pos_pct" -lt 75 ]; then
+      sc="179"   # muted amber
+    else
+      sc="167"   # muted red
+    fi
+    session_bar="${session_bar}\033[38;5;${sc}m█"
+  done
+  for ((i=0; i<session_empty; i++)); do session_bar="${session_bar}\033[38;5;240m░"; done
+  session_bar="${session_bar}\033[0m"
+  session_bar_rendered=$(printf "${session_bar}")
+
   if [ "$usage_5h" -ge 80 ]; then
     u5_color="$red"
   elif [ "$usage_5h" -ge 50 ]; then
@@ -252,12 +276,41 @@ if [ -n "$usage_5h" ]; then
   else
     u5_color=$'\033[38;5;140m'
   fi
-  line2="${line2}  ${light_grey}${icon_lock} 5h${reset} ${u5_color}${usage_5h}%${reset}"
-fi
-if [ "$lines_added" -gt 0 ] || [ "$lines_removed" -gt 0 ]; then
-  muted_green=$'\033[38;5;71m'
-  muted_red=$'\033[38;5;167m'
-  line2="${line2}  ${light_grey}${icon_delta}${reset} ${muted_green}+${lines_added}${reset} ${muted_red}-${lines_removed}${reset}"
+
+  session_warning=""
+  if [ "$usage_5h" -ge 85 ]; then
+    blink=$'\033[5m'
+    session_warning=" ${blink}${red}!${reset}"
+  fi
+
+  line2="${line2}  ${light_grey}${icon_bolt} 5h${reset} ${session_bar_rendered} ${u5_color}${usage_5h}%${reset}${session_warning}"
 fi
 
-printf "%s\n%s" "$line1" "$line2"
+# Line 3: active subagents
+muted_yellow=$'\033[38;5;179m'
+subagent_file="/tmp/.claude_subagents_${session_id}"
+agents=""
+if [ -f "$subagent_file" ] && [ -s "$subagent_file" ]; then
+  # Stale guard: if file not modified in 5 min, agents likely finished without cleanup
+  file_age=$(( $(date +%s) - $(stat -f %m "$subagent_file") ))
+  if [ "$file_age" -ge 300 ]; then
+    rm -f "$subagent_file"
+  else
+    # Read a snapshot — use lock to avoid garbled reads during concurrent writes
+    lockdir="${subagent_file}.lock"
+    mkdir "$lockdir" 2>/dev/null && locked=true || locked=false
+    agents=$(cat "$subagent_file" 2>/dev/null | sort | uniq -c | awk '{if ($1 > 1) printf "%s ×%s, ", $2, $1; else printf "%s, ", $2}' | sed 's/, $//')
+    [ "$locked" = true ] && rmdir "$lockdir" 2>/dev/null
+  fi
+fi
+if [ -n "$agents" ]; then
+  line3="${muted_yellow}${icon_robot}${reset}  ${muted_yellow}${agents}${reset}"
+else
+  line3="${muted_yellow}${icon_robot}${reset}  ${dim}No Agents Working${reset}"
+fi
+
+if [ -n "$line3" ]; then
+  printf "%s\n%s\n%s" "$line1" "$line2" "$line3"
+else
+  printf "%s\n%s" "$line1" "$line2"
+fi
