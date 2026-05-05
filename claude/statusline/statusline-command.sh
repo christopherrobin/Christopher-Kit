@@ -113,7 +113,7 @@ if [ -n "$used_pct" ]; then
     if [ "$pos_pct" -lt 50 ]; then
       color_code="71"   # muted green
     elif [ "$pos_pct" -lt 75 ]; then
-      color_code="179"  # muted yellow/amber
+      color_code="222"  # muted yellow/amber
     else
       color_code="167"  # muted red
     fi
@@ -250,16 +250,16 @@ if [ -n "$bar" ] && [ -n "$used_pct" ]; then
   line2="${line2}${light_grey}${icon_chip}${reset} ${bar_rendered} ${bar_color}${used_pct}%${reset}${ctx_warning}"
 fi
 if [ -n "$usage_5h" ]; then
-  # Session limit bar (10 chars wide, gradient like context bar)
+  # Session limit bar (15 chars wide, gradient like context bar)
   session_bar=""
-  session_filled=$(awk "BEGIN {printf \"%d\", ($usage_5h * 10 / 100 + 0.5)}")
-  session_empty=$((10 - session_filled))
+  session_filled=$(awk "BEGIN {printf \"%d\", ($usage_5h * 15 / 100 + 0.5)}")
+  session_empty=$((15 - session_filled))
   for ((i=0; i<session_filled; i++)); do
-    pos_pct=$((i * 100 / 10))
+    pos_pct=$((i * 100 / 15))
     if [ "$pos_pct" -lt 50 ]; then
-      sc="140"   # muted purple
+      sc="71"    # muted green (matches +lines)
     elif [ "$pos_pct" -lt 75 ]; then
-      sc="179"   # muted amber
+      sc="222"   # muted amber
     else
       sc="167"   # muted red
     fi
@@ -274,7 +274,7 @@ if [ -n "$usage_5h" ]; then
   elif [ "$usage_5h" -ge 50 ]; then
     u5_color="$yellow"
   else
-    u5_color=$'\033[38;5;140m'
+    u5_color=$'\033[38;5;71m'
   fi
 
   session_warning=""
@@ -287,7 +287,7 @@ if [ -n "$usage_5h" ]; then
 fi
 
 # Line 3: active subagents
-muted_yellow=$'\033[38;5;179m'
+muted_yellow=$'\033[38;5;222m'
 subagent_file="/tmp/.claude_subagents_${session_id}"
 agents=""
 if [ -f "$subagent_file" ] && [ -s "$subagent_file" ]; then
