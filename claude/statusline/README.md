@@ -58,7 +58,7 @@ cp statusline-command.sh ~/.claude/statusline-command.sh
 ### Line 1 — session & git
 | Element | Description |
 |---------|-------------|
-| Session duration | Time since the conversation started, with chevron separators |
+| Session duration | Time since the conversation started |
 | Project name | Current directory name |
 | Lines diff | Lines added/removed in the session (`+N -N`) |
 | Git branch | Branch name with dirty indicator (`*`) |
@@ -67,18 +67,18 @@ cp statusline-command.sh ~/.claude/statusline-command.sh
 ### Line 2 — model & agents
 | Element | Description |
 |---------|-------------|
-| Model | Sparkle icon (purple) + the active model's display name (shown first) |
-| Agent status | Robot icon + active subagent name(s), or `N/A` when idle |
+| Model | The active model's display name (shown first) |
+| Agent status | Active subagent name(s), or `N/A` when idle |
 
 ### Line 3 — local context
 | Element | Description |
 |---------|-------------|
-| Location-pin icon + bar | Context-window usage. 33-wide gradient bar (green → amber → red); icon and `%` match the bar's tip color. Blinks at 87%+ |
+| Context bar | Context-window usage. 33-wide gradient bar (green → amber → red); the icon and `%` match the bar's tip color. Blinks at 87%+ |
 
 ### Line 4 — global limit
 | Element | Description |
 |---------|-------------|
-| Bolt icon + bar | 5-hour Anthropic rate-limit usage (cached 60s). Same gradient bar style |
+| Limit bar | 5-hour Anthropic rate-limit usage (cached 60s). Same gradient bar style |
 
 ## Notes
 
