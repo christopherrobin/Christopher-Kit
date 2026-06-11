@@ -6,7 +6,7 @@ A four-line status bar for the Claude Code CLI that shows session info, git stat
 
 ## Font Requirement (read this first)
 
-This status line is built around **Nerd Font** glyphs (brain, location pin, globe, chevrons, bolt, folder, git branch, etc.). **Without a Nerd Font set as your terminal font, the icons render as empty boxes or blanks.**
+This status line is built around **Nerd Font** glyphs for its icons. **Without a Nerd Font set as your terminal font, the icons render as empty boxes or blanks.**
 
 **Recommended / tested font: `MesloLGS NF`** — the Powerlevel10k build by romkatv:
 
@@ -19,7 +19,7 @@ This status line is built around **Nerd Font** glyphs (brain, location pin, glob
 
 ### Important caveat about glyph coverage
 
-`MesloLGS NF` is a **lean, BMP-only build** — it covers most of the icons here, but a few glyphs (notably the **5h bolt**, a Material Design icon in the Unicode supplementary plane at `U+F04C5`) are **not** in it and only render via your OS's font fallback. On macOS this usually "just works," but it's not guaranteed everywhere.
+`MesloLGS NF` is a **lean, BMP-only build** — it covers most of the icons here, but some glyphs (Material Design icons, which live in the Unicode supplementary plane) are **not** in it and only render via your OS's font fallback. On macOS this usually "just works," but it's not guaranteed everywhere.
 
 **For complete, guaranteed coverage of every glyph**, install the **full Meslo Nerd Font (v3.0+)** instead, which includes the entire Nerd Fonts range (Material Design icons included):
 
