@@ -37,6 +37,7 @@ input=$(cat)
 # ── Extract fields ──────────────────────────────────────────────────────────
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
 session_name=$(echo "$input" | jq -r '.session_name // empty')
+model_name=$(echo "$input" | jq -r '.model.display_name // empty')
 
 ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // 0')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
@@ -98,18 +99,18 @@ if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
   fi
 fi
 
-# ── Context progress bar (20 chars wide, gradient + half-block) ───────────────
+# ── Context progress bar (33 chars wide, gradient + half-block) ───────────────
 bar=""
 bar_color=""
 if [ -n "$used_pct" ]; then
   used_int=$(echo "$used_pct" | awk '{printf "%d", $1}')
-  filled=$(echo "$used_pct" | awk '{printf "%d", ($1 * 15 / 100 + 0.5)}')
-  empty=$((15 - filled))
+  filled=$(echo "$used_pct" | awk '{printf "%d", ($1 * 33 / 100 + 0.5)}')
+  empty=$((33 - filled))
   bar=""
   # Color based on overall usage: green → yellow → red
   # Each filled block gets a color based on its position in the TOTAL bar (0-100%)
   for ((i=0; i<filled; i++)); do
-    pos_pct=$((i * 100 / 15))
+    pos_pct=$((i * 100 / 33))
     if [ "$pos_pct" -lt 50 ]; then
       color_code="71"   # muted green
     elif [ "$pos_pct" -lt 75 ]; then
@@ -117,19 +118,24 @@ if [ -n "$used_pct" ]; then
     else
       color_code="167"  # muted red
     fi
-    bar="${bar}\033[38;5;${color_code}m█"
+    bar="${bar}\033[38;5;${color_code}m▆"
   done
   # Empty portion in dark grey
-  for ((i=0; i<empty; i++)); do bar="${bar}\033[38;5;240m░"; done
+  for ((i=0; i<empty; i++)); do bar="${bar}\033[38;5;235m▆"; done
   bar="${bar}\033[0m"
 
-  # Bar color for chip icon and percentage
-  if [ "$used_int" -ge 75 ]; then
-    bar_color="$red"
-  elif [ "$used_int" -ge 50 ]; then
-    bar_color="$yellow"
+  # Bar color = color of the rightmost filled block (matches the gradient tip)
+  if [ "$filled" -le 0 ]; then
+    bar_color=$'\033[38;5;71m'    # muted green
   else
-    bar_color="$green"
+    tip_pos=$(( (filled - 1) * 100 / 33 ))
+    if [ "$tip_pos" -lt 50 ]; then
+      bar_color=$'\033[38;5;71m'    # muted green
+    elif [ "$tip_pos" -lt 75 ]; then
+      bar_color=$'\033[38;5;222m'   # muted amber
+    else
+      bar_color=$'\033[38;5;167m'   # muted red
+    fi
   fi
 fi
 
@@ -182,6 +188,10 @@ icon_bolt=$(printf '\xf3\xb0\x93\x85')
 icon_lock=$(printf '\xef\x80\xa3')
 icon_robot=$(printf '\xee\xb8\x8d')
 icon_clock=$(printf '\xef\x94\xa0')
+icon_model=$(printf '\xf3\xb0\x99\xb4')
+icon_chevron=$(printf '\xef\x91\xa0')
+icon_local=$(printf '\xef\x91\x90')
+icon_global=$(printf '\xef\x82\xac')
 
 # ── ANSI colors ──────────────────────────────────────────────────────────────
 cyan=$'\033[36m'
@@ -194,6 +204,8 @@ blue=$'\033[34m'
 red=$'\033[31m'
 dim=$'\033[2m'
 light_grey=$'\033[38;5;250m'
+soft_grey=$'\033[38;5;245m'
+white=$'\033[97m'
 bold=$'\033[1m'
 reset=$'\033[0m'
 
@@ -204,13 +216,13 @@ line1=""
 # Session duration
 if [ -n "$session_dur" ]; then
   bright_cyan=$'\033[38;5;117m'
-  line1="${line1}${bright_cyan}${icon_clock}${reset} ${bright_cyan}${session_dur}${reset}  "
+  line1="${line1}${bright_cyan}${icon_clock}${reset} ${bright_cyan}${session_dur}${reset} ${light_grey}${icon_chevron}${reset}  "
 fi
 
 # Project name
 if [ -n "$project_name" ]; then
   almost_white=$'\033[38;5;253m'
-  line1="${line1}${light_grey}${icon_folder}${reset} ${light_grey}${project_name}${reset} ❯"
+  line1="${line1}${light_grey}${icon_folder}${reset} ${light_grey}${project_name}${reset} ${light_grey}${icon_chevron}${reset}"
 fi
 
 # Worktree
@@ -228,8 +240,8 @@ if [ -n "$git_branch" ]; then
   mr=$'\033[38;5;167m'
   muted_green=$'\033[38;5;71m'
   muted_red=$'\033[38;5;167m'
-  diff_part=" ${muted_green}+${lines_added}${reset} ${muted_red}-${lines_removed}${reset}"
-  line1="${line1}${diff_part} ❯ ${muted_pink}${icon_git_branch}${reset} ${bold}${muted_pink}${git_branch}${reset}${muted_pink}${git_status_icon}${reset}"
+  diff_part="  ${muted_green}+${lines_added}${reset} ${muted_red}-${lines_removed}${reset}"
+  line1="${line1}${diff_part} ${light_grey}${icon_chevron}${reset}  ${muted_pink}${icon_git_branch}${reset} ${bold}${muted_pink}${git_branch}${reset}${muted_pink}${git_status_icon}${reset}"
 fi
 
 # Agent
@@ -240,6 +252,7 @@ fi
 
 # Line 2: context bar | rate limit | diff | timer
 line2=""
+line4=""
 if [ -n "$bar" ] && [ -n "$used_pct" ]; then
   bar_rendered=$(printf "${bar}")
   ctx_warning=""
@@ -247,15 +260,15 @@ if [ -n "$bar" ] && [ -n "$used_pct" ]; then
     blink=$'\033[5m'
     ctx_warning=" ${blink}${red}!${reset}"
   fi
-  line2="${line2}${light_grey}${icon_chip}${reset} ${bar_rendered} ${bar_color}${used_pct}%${reset}${ctx_warning}"
+  line2="${bar_color}${icon_local}${reset}  ${bar_rendered} ${bar_color}${used_pct}%${reset}${ctx_warning}"
 fi
 if [ -n "$usage_5h" ]; then
-  # Session limit bar (15 chars wide, gradient like context bar)
+  # Session limit bar (33 chars wide, gradient like context bar)
   session_bar=""
-  session_filled=$(awk "BEGIN {printf \"%d\", ($usage_5h * 15 / 100 + 0.5)}")
-  session_empty=$((15 - session_filled))
+  session_filled=$(awk "BEGIN {printf \"%d\", ($usage_5h * 33 / 100 + 0.5)}")
+  session_empty=$((33 - session_filled))
   for ((i=0; i<session_filled; i++)); do
-    pos_pct=$((i * 100 / 15))
+    pos_pct=$((i * 100 / 33))
     if [ "$pos_pct" -lt 50 ]; then
       sc="71"    # muted green (matches +lines)
     elif [ "$pos_pct" -lt 75 ]; then
@@ -263,18 +276,24 @@ if [ -n "$usage_5h" ]; then
     else
       sc="167"   # muted red
     fi
-    session_bar="${session_bar}\033[38;5;${sc}m█"
+    session_bar="${session_bar}\033[38;5;${sc}m▆"
   done
-  for ((i=0; i<session_empty; i++)); do session_bar="${session_bar}\033[38;5;240m░"; done
+  for ((i=0; i<session_empty; i++)); do session_bar="${session_bar}\033[38;5;235m▆"; done
   session_bar="${session_bar}\033[0m"
   session_bar_rendered=$(printf "${session_bar}")
 
-  if [ "$usage_5h" -ge 80 ]; then
-    u5_color="$red"
-  elif [ "$usage_5h" -ge 50 ]; then
-    u5_color="$yellow"
+  # Color = rightmost filled block of the session bar (matches the gradient tip)
+  if [ "$session_filled" -le 0 ]; then
+    u5_color=$'\033[38;5;71m'    # muted green
   else
-    u5_color=$'\033[38;5;71m'
+    tip_pos=$(( (session_filled - 1) * 100 / 33 ))
+    if [ "$tip_pos" -lt 50 ]; then
+      u5_color=$'\033[38;5;71m'    # muted green
+    elif [ "$tip_pos" -lt 75 ]; then
+      u5_color=$'\033[38;5;222m'   # muted amber
+    else
+      u5_color=$'\033[38;5;167m'   # muted red
+    fi
   fi
 
   session_warning=""
@@ -283,7 +302,7 @@ if [ -n "$usage_5h" ]; then
     session_warning=" ${blink}${red}!${reset}"
   fi
 
-  line2="${line2}  ${light_grey}${icon_bolt} 5h${reset} ${session_bar_rendered} ${u5_color}${usage_5h}%${reset}${session_warning}"
+  line4="${u5_color}${icon_bolt}${reset}  ${session_bar_rendered} ${u5_color}${usage_5h}%${reset}${session_warning}"
 fi
 
 # Line 3: active subagents
@@ -303,14 +322,28 @@ if [ -f "$subagent_file" ] && [ -s "$subagent_file" ]; then
     [ "$locked" = true ] && rmdir "$lockdir" 2>/dev/null
   fi
 fi
+# Agent portion (robot + active subagents, or N/A when idle)
 if [ -n "$agents" ]; then
-  line3="${muted_yellow}${icon_robot}${reset}  ${muted_yellow}${agents}${reset}"
+  agent_part="${muted_yellow}${icon_robot}${reset}  ${muted_yellow}${agents}${reset}"
 else
-  line3="${muted_yellow}${icon_robot}${reset}  ${dim}No Agents Working${reset}"
+  agent_part="${muted_yellow}${icon_robot}${reset}  ${soft_grey}N/A${reset}"
 fi
 
-if [ -n "$line3" ]; then
-  printf "%s\n%s\n%s" "$line1" "$line2" "$line3"
-else
-  printf "%s\n%s" "$line1" "$line2"
+# Model portion (shown first)
+model_part=""
+if [ -n "$model_name" ]; then
+  light_purple=$'\033[38;5;141m'
+  model_part="${light_purple}${icon_model}${reset} ${soft_grey}${model_name}${reset}"
 fi
+
+# Line 3: model first, then agents
+if [ -n "$model_part" ]; then
+  line3="${model_part}  ${agent_part}"
+else
+  line3="${agent_part}"
+fi
+
+out="${line1}"$'\n'"${line3}"
+[ -n "$line2" ] && out="${out}"$'\n'"${line2}"
+[ -n "$line4" ] && out="${out}"$'\n'"${line4}"
+printf "%s" "$out"
