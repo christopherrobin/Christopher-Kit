@@ -4,8 +4,6 @@ A four-line status bar for the Claude Code CLI that shows session info, git stat
 
 ![Status line preview](statusline-preview.png)
 
-> **Note:** the preview image predates the current 4-line layout — it's illustrative, not exact.
-
 ## Font Requirement (read this first)
 
 This status line is built around **Nerd Font** glyphs (brain, location pin, globe, chevrons, bolt, folder, git branch, etc.). **Without a Nerd Font set as your terminal font, the icons render as empty boxes or blanks.**
