@@ -205,6 +205,7 @@ red=$'\033[31m'
 dim=$'\033[2m'
 light_grey=$'\033[38;5;250m'
 soft_grey=$'\033[38;5;245m'
+bright_cyan=$'\033[38;5;117m'
 white=$'\033[97m'
 bold=$'\033[1m'
 reset=$'\033[0m'
@@ -215,8 +216,7 @@ line1=""
 
 # Session duration
 if [ -n "$session_dur" ]; then
-  bright_cyan=$'\033[38;5;117m'
-  line1="${line1}${bright_cyan}${icon_clock}${reset} ${bright_cyan}${session_dur}${reset} ${light_grey}${icon_chevron}${reset}  "
+  line1="${line1}${light_grey}${icon_clock}${reset} ${light_grey}${session_dur}${reset} ${light_grey}${icon_chevron}${reset}  "
 fi
 
 # Project name
@@ -324,16 +324,16 @@ if [ -f "$subagent_file" ] && [ -s "$subagent_file" ]; then
 fi
 # Agent portion (robot + active subagents, or N/A when idle)
 if [ -n "$agents" ]; then
-  agent_part="${muted_yellow}${icon_robot}${reset}  ${muted_yellow}${agents}${reset}"
+  agent_part="${bright_cyan}${icon_robot}${reset}  ${bright_cyan}${agents}${reset}"
 else
-  agent_part="${muted_yellow}${icon_robot}${reset}  ${soft_grey}N/A${reset}"
+  agent_part="${bright_cyan}${icon_robot}${reset}  ${bright_cyan}N/A${reset}"
 fi
 
 # Model portion (shown first)
 model_part=""
 if [ -n "$model_name" ]; then
   light_purple=$'\033[38;5;141m'
-  model_part="${light_purple}${icon_model}${reset} ${soft_grey}${model_name}${reset}"
+  model_part="${light_purple}${icon_model} ${model_name}${reset}"
 fi
 
 # Line 3: model first, then agents

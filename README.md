@@ -14,7 +14,7 @@ Every time you set up a new machine, you spend hours recreating your dev environ
 - **[Zsh](zsh/)** - Custom `.zshrc` with Powerlevel10k, utility functions, and shell helpers
 - **[Ghostty](ghostty/)** - Terminal config with Cyberdream color palette and semi-transparent background
 - **[Claude Code](claude/)**
-  - **[Status Line](claude/statusline/)** - Two-line status bar showing session time, git status, context usage, and rate limits
+  - **[Status Line](claude/statusline/)** - Four-line status bar showing session time, git status, active model, context usage, and 5h rate limits
   - **[Skills](claude/skills/)** - Custom slash commands (`/msg`, `/review-me`, `/grind`, `/audit`, `/scaffold`, `/deps`)
   - **[Agents](claude/agents/)** - 36 specialized AI agents (React, Next.js, TypeScript, Python, Prisma, AWS, and more)
   - **[Settings](claude/settings/)** - Example settings.json with MCP server configs (Context7, MUI, Tailwind, GitHub, AWS)
