@@ -1,19 +1,15 @@
-# Font
 font-family = MesloLGS NF
 font-size = 14
 font-thicken = true
 adjust-cell-height = 2
-
-# Window
 background = #0f1115
-background-opacity = 0.90
-background-blur-radius = 20
+background-opacity = 0.95
+background-blur-radius = 10
 foreground = #ffffff
 cursor-color = #ff69b4
 cursor-text = #16181a
-selection-background = #3c4048
-selection-foreground = #ffffff
-split-divider-color = #bd5eff
+selection-background = #5eff6c
+selection-foreground = #0f1115
 
 # Cyberdream palette
 palette = 0=#16181a
@@ -32,3 +28,5 @@ palette = 12=#5ea1ff
 palette = 13=#bd5eff
 palette = 14=#5ef1ff
 palette = 15=#ffffff
+
+split-divider-color = #5eff6c
