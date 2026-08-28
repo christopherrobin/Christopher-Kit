@@ -15,9 +15,10 @@ Every time you set up a new machine, you spend hours recreating your dev environ
 - **[Ghostty](ghostty/)** - Terminal config with Cyberdream color palette and semi-transparent background
 - **[Claude Code](claude/)**
   - **[Status Line](claude/statusline/)** - Four-line status bar showing session time, git status, active model, context usage, and 5h rate limits
-  - **[Skills](claude/skills/)** - Custom slash commands (`/msg`, `/review-me`, `/grind`, `/audit`, `/scaffold`, `/deps`)
-  - **[Agents](claude/agents/)** - 36 specialized AI agents (React, Next.js, TypeScript, Python, Prisma, AWS, and more)
-  - **[Settings](claude/settings/)** - Example settings.json with MCP server configs (Context7, MUI, Tailwind, GitHub, AWS)
+  - **[Hooks](claude/hooks/)** - Subagent tracking hook that powers the status line's agent display
+  - **[Skills](claude/skills/)** - Custom slash commands (`/msg`, `/review-me`, `/grind`, `/audit`, `/scaffold`, `/deps`, `/handoff`)
+  - **[Agents](claude/agents/)** - 39 specialized AI agents (React, Next.js, TypeScript, Python, Prisma, AWS, and more)
+  - **[Settings](claude/settings/)** - Example settings.json (status line + hooks) and install commands for MCP servers (Context7, MUI, Tailwind, GitHub, AWS)
 
 ### How It Works Together
 
@@ -32,6 +33,7 @@ The skills are your entry points into this system:
 - `/review-me` - Code review with security, DRY, and performance checks
 - `/audit` - Full codebase health check (architecture + quality)
 - `/deps` - Check for outdated or vulnerable packages
+- `/handoff` - Save full session context to a file before compacting or handing off to a fresh session
 
 The **project-analyst** auto-detects your tech stack and the **team-configurator** wires up the right agents for your project.
 
@@ -45,6 +47,9 @@ cd Christopher-Kit
 Each directory has its own README with detailed setup instructions. Pick what you need:
 
 ### Shell Config
+
+> These overwrite `~/.zshrc` and `~/.p10k.zsh` - back up your existing files first.
+
 ```bash
 cp zsh/.zshrc ~/.zshrc
 cp zsh/.p10k.zsh ~/.p10k.zsh
@@ -52,21 +57,34 @@ cp zsh/.p10k.zsh ~/.p10k.zsh
 
 ### Ghostty Terminal
 ```bash
+mkdir -p ~/.config/ghostty
 cp ghostty/config ~/.config/ghostty/config
 ```
 
 ### Claude Code
+
+> If `~/.claude/agents` already exists as a real directory, move it aside first (`mv ~/.claude/agents ~/.claude/agents.bak`) - otherwise the symlink nests inside it instead of replacing it. If you already have a `~/.claude/settings.json`, merge the example into it by hand instead of copying over it.
+
 ```bash
 # Agents
-ln -sf "$(pwd)/claude/agents" ~/.claude/agents
+ln -sfn "$(pwd)/claude/agents" ~/.claude/agents
 
 # Skills
+mkdir -p ~/.claude/skills
 cp -r claude/skills/* ~/.claude/skills/
 
-# Status line + settings
+# Status line
 cp claude/statusline/statusline-command.sh ~/.claude/statusline-command.sh
+
+# Hooks (powers the status line's agent display)
+mkdir -p ~/.claude/hooks
+cp claude/hooks/track-subagents.sh ~/.claude/hooks/track-subagents.sh
+
+# Settings (fresh machines only - see warning above)
 cp claude/settings/settings.example.json ~/.claude/settings.json
 ```
+
+MCP servers (Context7, GitHub, etc.) are installed with `claude mcp add` - see [claude/settings/](claude/settings/) for the commands.
 
 ### Preview
 

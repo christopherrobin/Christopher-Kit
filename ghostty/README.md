@@ -26,6 +26,6 @@ Restart Ghostty to apply changes.
 | Setting | Value |
 |---------|-------|
 | Font | MesloLGS NF, size 14 |
-| Background | Dark (#0f1115), 92% opacity with blur |
+| Background | Dark (#0f1115), semi-transparent with blur |
 | Cursor | Hot pink (#ff69b4) |
 | Color palette | Cyberdream |

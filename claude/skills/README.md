@@ -12,6 +12,7 @@ Custom slash commands for Claude Code. Each skill is a markdown file with frontm
 | [audit](audit/) | `/audit` | Full codebase health check - architecture, security, quality |
 | [scaffold](scaffold/) | `/scaffold` | Plan and build a new feature with tech-lead + specialists |
 | [deps](deps/) | `/deps` | Check for outdated, vulnerable, or unused dependencies |
+| [handoff](handoff/) | `/handoff` | Save full session context to a file before a compact or session handoff |
 
 ## Setup
 
@@ -24,6 +25,7 @@ cp -r grind ~/.claude/skills/grind
 cp -r audit ~/.claude/skills/audit
 cp -r scaffold ~/.claude/skills/scaffold
 cp -r deps ~/.claude/skills/deps
+cp -r handoff ~/.claude/skills/handoff
 ```
 
 Skills are automatically detected by Claude Code once placed in `~/.claude/skills/`.

@@ -9,29 +9,31 @@ Configs and tools are organized by the application or tool they belong to:
 ```
 Christopher-Kit/
 ├── ghostty/              # Ghostty terminal config
-│   ├── config
-│   └── README.md
+├── zsh/                  # Zsh config with Powerlevel10k and shell helpers
 ├── claude/
 │   ├── statusline/       # Claude Code status line script
-│   │   ├── statusline-command.sh
-│   │   └── README.md
+│   ├── hooks/            # Hook scripts (subagent tracking for the status line)
+│   ├── settings/         # Example settings.json
 │   ├── skills/           # Custom slash commands
-│   │   ├── msg/          # /msg — generate commit messages
-│   │   ├── review-me/    # /review-me — code review
-│   │   └── README.md
+│   │   ├── msg/          # /msg - generate commit messages
+│   │   ├── review-me/    # /review-me - code review of current branch
+│   │   ├── grind/        # /grind - verify with tech lead, then implement
+│   │   ├── audit/        # /audit - full codebase health check
+│   │   ├── scaffold/     # /scaffold - plan and build a feature end-to-end
+│   │   ├── deps/         # /deps - dependency audit
+│   │   └── handoff/      # /handoff - save session context before compact/handoff
 │   └── agents/           # Specialized AI agents
 │       ├── core/         # Code review, testing, docs, performance
 │       ├── orchestrators/ # Project analysis, team config, tech lead
 │       ├── specialized/  # Framework experts (React, Python, Prisma, etc.)
-│       ├── universal/    # Cross-framework specialists
-│       └── README.md
+│       └── universal/    # Cross-framework specialists
 ```
 
 Each top-level directory corresponds to a single tool or application. Subdirectories group related features (e.g., `claude/statusline/`). Each directory includes a README with prerequisites and setup instructions.
 
 ## Guidelines
 
-### Security — Review Everything Before Committing
+### Security - Review Everything Before Committing
 
 This repo may be released publicly. Before adding any file:
 
@@ -49,7 +51,7 @@ This repo may be released publicly. Before adding any file:
 
 ### Keep It Simple
 
-- These are config files and shell scripts, not applications — don't over-engineer
+- These are config files and shell scripts, not applications - don't over-engineer
 - No abstraction layers or templating unless there's a clear need
 - Flat, obvious file organization over clever nesting
 
@@ -57,11 +59,11 @@ This repo may be released publicly. Before adding any file:
 
 All code produced by agents in this toolkit should follow these principles:
 
-- **DRY** — Don't repeat yourself. Extract reusable utilities instead of copy-pasting. But don't abstract prematurely — wait until a pattern is clear before extracting.
-- **Functional over imperative** — Prefer pure functions over side effects. Use `map`/`filter`/`reduce` over imperative loops. Compose small functions over writing monolithic ones.
-- **Immutable by default** — Use `const`, `readonly`, and immutable data structures. Mutate only when there's a clear performance reason.
-- **Composable and reusable** — Design functions and components for reuse from the start. Small, focused units that compose together.
-- **Scalable patterns** — Write code that works for 10 items and 10,000 items. Consider data growth, not just current state.
+- **DRY** - Don't repeat yourself. Extract reusable utilities instead of copy-pasting. But don't abstract prematurely - wait until a pattern is clear before extracting.
+- **Functional over imperative** - Prefer pure functions over side effects. Use `map`/`filter`/`reduce` over imperative loops. Compose small functions over writing monolithic ones.
+- **Immutable by default** - Use `const`, `readonly`, and immutable data structures. Mutate only when there's a clear performance reason.
+- **Composable and reusable** - Design functions and components for reuse from the start. Small, focused units that compose together.
+- **Scalable patterns** - Write code that works for 10 items and 10,000 items. Consider data growth, not just current state.
 
 ## Adding New Content
 
@@ -69,7 +71,7 @@ When bringing a new config or tool into the repo:
 
 1. **Locate** the source file on the current machine
 2. **Review** it for secrets, PII, and hardcoded personal paths
-3. **Sanitize** — replace sensitive values with placeholders or comments
+3. **Sanitize** - replace sensitive values with placeholders or comments
 4. **Place** it in the correct directory (create a new top-level directory if it's a new tool)
 5. **Comment** any non-obvious settings
 6. **Update** the README's "What's Included" section and directory structure
