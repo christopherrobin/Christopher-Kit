@@ -87,6 +87,7 @@ High-level planning and coordination:
 - **Node.js**: express-tsoa-expert, fastify-expert, vitest-expert
 - **Database**: prisma-database-expert, mysql-prisma-expert, postgresql-prisma-expert
 - **Firebase**: firebase-expert
+- **Godot**: gdscript-expert, godot-scene-architect, godot-performance-expert
 
 ### Universal Specialists
 Cross-framework tools:

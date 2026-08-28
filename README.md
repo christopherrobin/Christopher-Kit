@@ -17,7 +17,7 @@ Every time you set up a new machine, you spend hours recreating your dev environ
   - **[Status Line](claude/statusline/)** - Four-line status bar showing session time, git status, active model, context usage, and 5h rate limits
   - **[Hooks](claude/hooks/)** - Subagent tracking hook that powers the status line's agent display
   - **[Skills](claude/skills/)** - Custom slash commands (`/msg`, `/review-me`, `/grind`, `/audit`, `/scaffold`, `/deps`, `/handoff`)
-  - **[Agents](claude/agents/)** - 39 specialized AI agents (React, Next.js, TypeScript, Python, Prisma, AWS, and more)
+  - **[Agents](claude/agents/)** - 42 specialized AI agents (React, Next.js, TypeScript, Python, Prisma, Godot, AWS, and more)
   - **[Settings](claude/settings/)** - Example settings.json (status line + hooks) and install commands for MCP servers (Context7, MUI, Tailwind, GitHub, AWS)
 
 ### How It Works Together
