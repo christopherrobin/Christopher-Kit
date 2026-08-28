@@ -14,14 +14,7 @@ Christopher-Kit/
 │   ├── statusline/       # Claude Code status line script
 │   ├── hooks/            # Hook scripts (subagent tracking for the status line)
 │   ├── settings/         # Example settings.json
-│   ├── skills/           # Custom slash commands
-│   │   ├── msg/          # /msg - generate commit messages
-│   │   ├── review-me/    # /review-me - code review of current branch
-│   │   ├── grind/        # /grind - verify with tech lead, then implement
-│   │   ├── audit/        # /audit - full codebase health check
-│   │   ├── scaffold/     # /scaffold - plan and build a feature end-to-end
-│   │   ├── deps/         # /deps - dependency audit
-│   │   └── handoff/      # /handoff - save session context before compact/handoff
+│   ├── skills/           # Custom slash commands (each listed in claude/skills/README.md)
 │   └── agents/           # Specialized AI agents
 │       ├── core/         # Code review, testing, docs, performance
 │       ├── orchestrators/ # Project analysis, team config, tech lead
@@ -41,6 +34,7 @@ This repo may be released publicly. Before adding any file:
 - Remove or generalize personal paths (e.g., `/Users/yourname/` → `~/` or `$HOME/`)
 - Remove PII (emails, usernames tied to accounts)
 - Replace sensitive values with placeholder comments explaining what goes there
+- Example configs must use obvious placeholders (e.g. `<your-token>`) or token-free flows like OAuth, never anything shaped like a real credential
 - Flag anything questionable to the user before committing
 
 ### Keep Configs Useful to Others
@@ -55,15 +49,14 @@ This repo may be released publicly. Before adding any file:
 - No abstraction layers or templating unless there's a clear need
 - Flat, obvious file organization over clever nesting
 
-### Coding Philosophy
+### Shell Script Constraints
 
-All code produced by agents in this toolkit should follow these principles:
+Scripts target macOS's stock `/bin/bash` 3.2 with BSD userland:
 
-- **DRY** - Don't repeat yourself. Extract reusable utilities instead of copy-pasting. But don't abstract prematurely - wait until a pattern is clear before extracting.
-- **Functional over imperative** - Prefer pure functions over side effects. Use `map`/`filter`/`reduce` over imperative loops. Compose small functions over writing monolithic ones.
-- **Immutable by default** - Use `const`, `readonly`, and immutable data structures. Mutate only when there's a clear performance reason.
-- **Composable and reusable** - Design functions and components for reuse from the start. Small, focused units that compose together.
-- **Scalable patterns** - Write code that works for 10 items and 10,000 items. Consider data growth, not just current state.
+- No bash 4+ features: no `declare -A`, `mapfile`, or `${var^^}`
+- BSD tools, not GNU: `stat -f %m` (not `stat -c`), and there is no `timeout` command
+- Bound any wait/retry loop with a counter rather than an external timeout
+- Sanity-check with `/bin/bash -n` (not just your PATH's bash, which may be newer)
 
 ## Adding New Content
 
@@ -74,4 +67,4 @@ When bringing a new config or tool into the repo:
 3. **Sanitize** - replace sensitive values with placeholders or comments
 4. **Place** it in the correct directory (create a new top-level directory if it's a new tool)
 5. **Comment** any non-obvious settings
-6. **Update** the README's "What's Included" section and directory structure
+6. **Update** the root README's "What's Included" section, the directory's own README, and this file's directory structure

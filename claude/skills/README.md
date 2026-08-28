@@ -19,6 +19,7 @@ Custom slash commands for Claude Code. Each skill is a markdown file with frontm
 Copy the skill directories into your Claude config:
 
 ```bash
+mkdir -p ~/.claude/skills
 cp -r msg ~/.claude/skills/msg
 cp -r review-me ~/.claude/skills/review-me
 cp -r grind ~/.claude/skills/grind

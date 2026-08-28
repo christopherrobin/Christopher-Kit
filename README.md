@@ -35,7 +35,7 @@ The skills are your entry points into this system:
 - `/deps` - Check for outdated or vulnerable packages
 - `/handoff` - Save full session context to a file before compacting or handing off to a fresh session
 
-The **project-analyst** auto-detects your tech stack and the **team-configurator** wires up the right agents for your project.
+Start each project by running the **team-configurator** once (`claudeInit` if you use the bundled zsh config) - it detects your tech stack with the **project-analyst** and writes an agent assignment table into that project's CLAUDE.md. From then on, every session and skill routes work through the team it configured. See [Getting Started](claude/agents/README.md#getting-started).
 
 ## Quick Start
 
@@ -85,6 +85,8 @@ cp claude/settings/settings.example.json ~/.claude/settings.json
 ```
 
 MCP servers (Context7, GitHub, etc.) are installed with `claude mcp add` - see [claude/settings/](claude/settings/) for the commands.
+
+Once installed, configure each project by running the team-configurator - see [Getting Started](claude/agents/README.md#getting-started).
 
 ### Preview
 

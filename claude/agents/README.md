@@ -2,35 +2,43 @@
 
 A collection of specialized AI agents for [Claude Code](https://claude.com/claude-code) CLI. Each agent is an expert in a specific framework, language, or development task.
 
+## Getting Started
+
+1. **Install the agents** (see [Setup](#setup) below) so they live at `~/.claude/agents`.
+2. **Configure your project once.** From your project root, run the team-configurator to detect the stack and write an agent assignment table into your project's CLAUDE.md:
+
+   ```bash
+   claude "Use team-configurator to set up my AI development team"
+   ```
+
+   If you use the bundled [.zshrc](../../zsh/), the `claudeInit` function runs this exact command.
+3. **Work normally.** Claude auto-delegates to the right specialists based on the assignment table. Use the `/scaffold` or `/grind` [skills](../skills/) when you want the tech-lead-orchestrator to drive a feature end-to-end.
+
 ## Setup
 
-Copy or symlink the agents directory into your Claude config:
+> If `~/.claude/agents` already exists as a real directory, move it aside first (`mv ~/.claude/agents ~/.claude/agents.bak`) - otherwise the symlink nests inside it instead of replacing it.
+
+From the repo root:
 
 ```bash
 # Copy
-cp -r agents/ ~/.claude/agents/
+cp -r claude/agents ~/.claude/agents
 
-# Or symlink
-ln -sf "$(pwd)/agents" ~/.claude/agents
-```
-
-## Configure Your Project
-
-Run the team configurator to auto-detect your project's tech stack and set up agent routing in your CLAUDE.md:
-
-```bash
-claude "use @agent-team-configurator and optimize my project to best use the available subagents"
+# Or symlink to keep it linked to the repo
+ln -sfn "$(pwd)/claude/agents" ~/.claude/agents
 ```
 
 ## Usage
 
-Invoke agents by name with `@agent-name`:
+Ask for an agent in plain English and Claude routes the work to it:
 
 ```bash
-claude "use @agent-tech-lead-orchestrator to plan a user auth system"
-claude "use @agent-code-reviewer to review my changes"
-claude "@react-nextjs-expert add a server component for product listing"
+claude "use the tech-lead-orchestrator to plan a user auth system"
+claude "use the code-reviewer to review my changes"
+claude "have the react-nextjs-expert add a server component for product listing"
 ```
+
+Tip: in an interactive session you can also @-mention an agent directly (e.g. `@agent-code-reviewer`). A mention that doesn't resolve is dropped silently with no error, so plain English is the safer habit and works everywhere.
 
 ## Naming Conventions
 
@@ -42,6 +50,16 @@ Agent names follow a consistent suffix pattern:
 | **architect** | Design-only - produces specs and plans, never implements | api-architect, scraper-architect |
 | **orchestrator / analyst / configurator** | Coordination - plans tasks, routes to specialists, never implements directly | tech-lead-orchestrator, project-analyst, team-configurator |
 | **Unique names** | Earned exceptions where the name better describes the role | code-reviewer, code-archaeologist, performance-optimizer |
+
+## Coding Philosophy
+
+Code produced by these agents in your projects should follow these principles. The team-configurator writes them into each project's CLAUDE.md when it sets up the AI team, so every session and specialist working in that project inherits them:
+
+- **DRY** - Don't repeat yourself. Extract reusable utilities instead of copy-pasting. But don't abstract prematurely - wait until a pattern is clear before extracting.
+- **Functional over imperative** - Prefer pure functions over side effects. Use `map`/`filter`/`reduce` over imperative loops. Compose small functions over writing monolithic ones.
+- **Immutable by default** - Use `const`, `readonly`, and immutable data structures. Mutate only when there's a clear performance reason.
+- **Composable and reusable** - Design functions and components for reuse from the start. Small, focused units that compose together.
+- **Scalable patterns** - Write code that works for 10 items and 10,000 items. Consider data growth, not just current state.
 
 ## Agents Included
 
@@ -87,7 +105,7 @@ Cross-framework tools:
 Use the tech-lead-orchestrator to add agents that follow the established patterns:
 
 ```bash
-claude "use @agent-tech-lead-orchestrator to add a new 'svelte-expert' agent to ~/.claude/agents/
+claude "use the tech-lead-orchestrator to add a new 'svelte-expert' agent to ~/.claude/agents/
 
 The agent should be:
 - Category: Framework specialist (specialized/svelte/)
