@@ -26,8 +26,8 @@ Before generating the message, check for project-specific commit conventions:
 1. Look for config files (check in order, stop at first match):
    - `commitlint.config.{js,cjs,mjs,ts}` or `.commitlintrc.*`
    - `.czrc` or `cz.json`
-   - `pyproject.toml` — look for `[tool.commitizen]` section
-   - `package.json` — look for `"commitizen"` or `"commitlint"` keys
+   - `pyproject.toml` - look for `[tool.commitizen]` section
+   - `package.json` - look for `"commitizen"` or `"commitlint"` keys
    - `.changeset/config.json`
    - `CLAUDE.md` or `.claude/settings.json` for any commit message guidance
 
@@ -39,7 +39,7 @@ Before generating the message, check for project-specific commit conventions:
 1. Run `git diff --staged --name-status` to check staged changes first
 2. If nothing is staged, run `git diff --name-status` to identify modified files (ignore untracked)
 3. Run `git diff --staged` (or `git diff` if nothing staged) to understand actual changes
-4. Run `git branch --show-current` to get the current branch name — extract any issue/ticket ID if present (e.g., `feat/PROJ-123-description` → `PROJ-123`)
+4. Run `git branch --show-current` to get the current branch name - extract any issue/ticket ID if present (e.g., `feat/PROJ-123-description` → `PROJ-123`)
 5. Run `git log --oneline -5` to see recent commit style for consistency
 
 ## Step 3: Determine Message Components
@@ -52,16 +52,16 @@ Before generating the message, check for project-specific commit conventions:
 
 ### Standard Types (use unless project config overrides):
 
-- `feat` — new feature
-- `fix` — bug fix
-- `docs` — documentation only
-- `style` — formatting, no code change
-- `refactor` — neither fix nor feature
-- `perf` — performance improvement
-- `test` — adding/updating tests
-- `build` — build system or dependencies
-- `ci` — CI configuration
-- `chore` — maintenance, tooling, other
+- `feat` - new feature
+- `fix` - bug fix
+- `docs` - documentation only
+- `style` - formatting, no code change
+- `refactor` - neither fix nor feature
+- `perf` - performance improvement
+- `test` - adding/updating tests
+- `build` - build system or dependencies
+- `ci` - CI configuration
+- `chore` - maintenance, tooling, other
 
 ### Scope (optional):
 
@@ -100,7 +100,7 @@ chore: update dependency lockfile
 
 ## Important Notes
 
-- Output ONLY the commit message — no commentary
+- Output ONLY the commit message - no commentary
 - Match the style of recent commits in the repo when possible
 - If project has custom types or scopes defined in config, prefer those over the defaults
 - When in doubt about type, `fix` for corrections, `feat` for additions, `refactor` for restructuring

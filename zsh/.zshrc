@@ -10,7 +10,7 @@ fi
 export ZSH="$HOME/.oh-my-zsh"            # Path to Oh-My-Zsh installation
 ZSH_THEME="powerlevel10k/powerlevel10k"  # Use Powerlevel10k as the prompt theme
 plugins=(git wd)                          # git: aliases & branch info, wd: bookmark directories
-source $ZSH/oh-my-zsh.sh                 # Start Oh-My-Zsh (required — loads theme + plugins)
+source $ZSH/oh-my-zsh.sh                 # Start Oh-My-Zsh (required - loads theme + plugins)
 
 # Colors
 BOLD="\e[1m"
@@ -63,7 +63,6 @@ function custom_prompt() {
 # Open .zshrc in VS Code
 function config() {
   custom_prompt "code ~/.zshrc";
-  cd ~;
   code ~/.zshrc;
 }
 
@@ -97,7 +96,10 @@ function myinfo() {(
   echo "   Time: ${CYAN}$(date +"%T")${ENDCOLOR}"
   echo "   Date: ${CYAN}$(date +"%Y-%m-%d")${ENDCOLOR}"
   echo "   Computer Name: ${CYAN}$(hostname)${ENDCOLOR}"
-  echo "   Node Version: ${CYAN}$(node -v)${ENDCOLOR}"
+  # Only shown when Node is installed, so fresh machines don't error on shell start
+  if command -v node > /dev/null 2>&1; then
+    echo "   Node Version: ${CYAN}$(node -v)${ENDCOLOR}"
+  fi
   echo "   Current Directory: ${CYAN}$(pwd)${ENDCOLOR}"
   if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
     echo "   Current Git Branch: ${CYAN}$(git symbolic-ref --short HEAD 2>/dev/null)${ENDCOLOR}"

@@ -8,7 +8,7 @@ Verify ALL proposed changes with the tech-lead-orchestrator agent, then implemen
 
 ## Instructions
 
-1. **Gather context:** Summarize all proposed changes from the current conversation — what files are affected, what the goal is, and what approach has been discussed. If there are uncommitted changes in the working tree, include those too.
+1. **Gather context:** Summarize all proposed changes from the current conversation - what files are affected, what the goal is, and what approach has been discussed. If there are uncommitted changes in the working tree, include those too.
 
 2. **Verify phase:** Use the `tech-lead-orchestrator` subagent to analyze and verify the proposed changes. Pass it the full context summary. The agent should:
    - Review the approach and architecture

@@ -1,4 +1,4 @@
-# Powerlevel10k configuration — Pure style with Snazzy colors
+# Powerlevel10k configuration - Pure style with Snazzy colors
 # Based on romkatv/powerlevel10k/config/p10k-pure.zsh
 # Run `p10k configure` to regenerate with the wizard
 #

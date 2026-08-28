@@ -9,7 +9,7 @@ Thumbs.db
 *.swo
 *~
 
-# Secrets — never commit
+# Secrets - never commit
 .env
 .env.*
 *.key
