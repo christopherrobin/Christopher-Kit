@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║  Claude Code Status Line                                                    ║
-# ║  A two-line status bar for Claude Code CLI                                  ║
+# ║  A four-line status bar for Claude Code CLI                                 ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 #
 # LAYOUT:
-#   Line 1: session time | folder name | git ahead/behind | git branch
-#   Line 2: context bar | 5h rate limit | lines diff
+#   Line 1: session time | project name | lines diff | git branch
+#   Line 2: model | active subagents
+#   Line 3: context window bar
+#   Line 4: 5h rate limit bar
 #
 # PREREQUISITES:
-#   - Nerd Font (e.g. MesloLGS NF) for icons — without it icons render as boxes
+#   - macOS (uses BSD stat and the security/Keychain CLI throughout)
+#   - Nerd Font (e.g. MesloLGS NF) for icons - without it icons render as boxes
 #   - jq (for parsing JSON input)
-#   - macOS Keychain access (for rate limit API — uses Claude Code OAuth token)
+#   - macOS Keychain access (for rate limit API - uses Claude Code OAuth token)
 #
 # SETUP:
 #   1. Copy this file to ~/.claude/statusline-command.sh
@@ -39,9 +42,7 @@ cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
 session_name=$(echo "$input" | jq -r '.session_name // empty')
 model_name=$(echo "$input" | jq -r '.model.display_name // empty')
 
-ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // 0')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
-remaining_pct=$(echo "$input" | jq -r '.context_window.remaining_percentage // empty')
 
 agent_name=$(echo "$input" | jq -r '.agent.name // empty')
 worktree_branch=$(echo "$input" | jq -r '.worktree.branch // empty')
@@ -56,6 +57,8 @@ if [ -n "$session_id" ]; then
   stamp_file="/tmp/.claude_session_${session_id}"
   if [ ! -f "$stamp_file" ]; then
     date +%s > "$stamp_file"
+    # Sweep stamp files left behind by sessions older than a day
+    find /tmp -maxdepth 1 -name '.claude_session_*' -mtime +1 -delete 2>/dev/null
   fi
   start_epoch=$(cat "$stamp_file")
   now_epoch=$(date +%s)
@@ -82,8 +85,9 @@ git_branch=""
 git_status_icon=""
 if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
   git_branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
-  # Check for uncommitted changes (skip optional locks)
-  if ! git -C "$cwd" --no-optional-locks diff --quiet 2>/dev/null; then
+  # Check for uncommitted changes, staged or unstaged (skip optional locks)
+  if ! git -C "$cwd" --no-optional-locks diff --quiet 2>/dev/null || \
+     ! git -C "$cwd" --no-optional-locks diff --cached --quiet 2>/dev/null; then
     git_status_icon="*"
   fi
   # Ahead/behind remote
@@ -141,7 +145,6 @@ fi
 
 # ── Usage limits (cached, refreshed every 60s) ────────────────────────────────
 usage_5h=""
-usage_7d=""
 usage_cache="/tmp/.claude_usage_cache"
 usage_ttl=60
 fetch_usage=false
@@ -171,47 +174,31 @@ fi
 
 if [ -f "$usage_cache" ]; then
   usage_5h=$(jq -r '.five_hour.utilization // empty' "$usage_cache" 2>/dev/null)
-  usage_7d=$(jq -r '.seven_day.utilization // empty' "$usage_cache" 2>/dev/null)
   # Round to integer
   [ -n "$usage_5h" ] && usage_5h=$(awk "BEGIN {printf \"%.0f\", $usage_5h}")
-  [ -n "$usage_7d" ] && usage_7d=$(awk "BEGIN {printf \"%.0f\", $usage_7d}")
 fi
 
 # ── Nerd Font icons ─────────────────────────────────────────────────────────
 icon_folder=$(printf '\xef\x81\xbb')
 icon_git_branch=$(printf '\xef\x84\xa6')
-icon_delta=$(printf '\xef\x81\x80')
-icon_chip=$(printf '\xef\x93\xad')
-icon_fire=$(printf '\xef\x92\x90')
-icon_rocket=$(printf '\xef\x84\xb5')
 icon_bolt=$(printf '\xf3\xb0\x93\x85')
-icon_lock=$(printf '\xef\x80\xa3')
 icon_robot=$(printf '\xee\xb8\x8d')
 icon_clock=$(printf '\xef\x94\xa0')
 icon_model=$(printf '\xf3\xb0\x99\xb4')
 icon_chevron=$(printf '\xef\x91\xa0')
 icon_local=$(printf '\xef\x91\x90')
-icon_global=$(printf '\xef\x82\xac')
 
 # ── ANSI colors ──────────────────────────────────────────────────────────────
-cyan=$'\033[36m'
-green=$'\033[32m'
-yellow=$'\033[33m'
 magenta=$'\033[35m'
-purple=$'\033[38;5;135m'
-pink=$'\033[38;5;213m'
-blue=$'\033[34m'
 red=$'\033[31m'
 dim=$'\033[2m'
 light_grey=$'\033[38;5;250m'
-soft_grey=$'\033[38;5;245m'
 bright_cyan=$'\033[38;5;117m'
-white=$'\033[97m'
 bold=$'\033[1m'
 reset=$'\033[0m'
 
 # ── Assemble output ───────────────────────────────────────────────────────────
-# Line 1: model | git | vim | agent | session
+# Line 1: session time | project name | lines diff | git branch | agent
 line1=""
 
 # Session duration
@@ -221,7 +208,6 @@ fi
 
 # Project name
 if [ -n "$project_name" ]; then
-  almost_white=$'\033[38;5;253m'
   line1="${line1}${light_grey}${icon_folder}${reset} ${light_grey}${project_name}${reset} ${light_grey}${icon_chevron}${reset}"
 fi
 
@@ -235,9 +221,6 @@ fi
 # Git branch
 if [ -n "$git_branch" ]; then
   muted_pink=$'\033[38;5;175m'
-  darker_pink=$'\033[38;5;132m'
-  mg=$'\033[38;5;71m'
-  mr=$'\033[38;5;167m'
   muted_green=$'\033[38;5;71m'
   muted_red=$'\033[38;5;167m'
   diff_part="  ${muted_green}+${lines_added}${reset} ${muted_red}-${lines_removed}${reset}"
@@ -250,8 +233,8 @@ if [ -n "$agent_name" ]; then
 fi
 
 
-# Line 2: context bar | rate limit | diff | timer
-line2=""
+# Line 3: context bar
+line3=""
 line4=""
 if [ -n "$bar" ] && [ -n "$used_pct" ]; then
   bar_rendered=$(printf "${bar}")
@@ -260,7 +243,7 @@ if [ -n "$bar" ] && [ -n "$used_pct" ]; then
     blink=$'\033[5m'
     ctx_warning=" ${blink}${red}!${reset}"
   fi
-  line2="${bar_color}${icon_local}${reset}  ${bar_rendered} ${bar_color}${used_pct}%${reset}${ctx_warning}"
+  line3="${bar_color}${icon_local}${reset}  ${bar_rendered} ${bar_color}${used_pct}%${reset}${ctx_warning}"
 fi
 if [ -n "$usage_5h" ]; then
   # Session limit bar (33 chars wide, gradient like context bar)
@@ -305,8 +288,7 @@ if [ -n "$usage_5h" ]; then
   line4="${u5_color}${icon_bolt}${reset}  ${session_bar_rendered} ${u5_color}${usage_5h}%${reset}${session_warning}"
 fi
 
-# Line 3: active subagents
-muted_yellow=$'\033[38;5;222m'
+# Active subagents (rendered on line 2)
 subagent_file="/tmp/.claude_subagents_${session_id}"
 agents=""
 if [ -f "$subagent_file" ] && [ -s "$subagent_file" ]; then
@@ -315,11 +297,8 @@ if [ -f "$subagent_file" ] && [ -s "$subagent_file" ]; then
   if [ "$file_age" -ge 300 ]; then
     rm -f "$subagent_file"
   else
-    # Read a snapshot — use lock to avoid garbled reads during concurrent writes
-    lockdir="${subagent_file}.lock"
-    mkdir "$lockdir" 2>/dev/null && locked=true || locked=false
+    # Plain read is safe: the hook only appends or atomically renames the file
     agents=$(cat "$subagent_file" 2>/dev/null | sort | uniq -c | awk '{if ($1 > 1) printf "%s ×%s, ", $2, $1; else printf "%s, ", $2}' | sed 's/, $//')
-    [ "$locked" = true ] && rmdir "$lockdir" 2>/dev/null
   fi
 fi
 # Agent portion (robot + active subagents, or N/A when idle)
@@ -336,14 +315,14 @@ if [ -n "$model_name" ]; then
   model_part="${light_purple}${icon_model} ${model_name}${reset}"
 fi
 
-# Line 3: model first, then agents
+# Line 2: model first, then agents
 if [ -n "$model_part" ]; then
-  line3="${model_part}  ${agent_part}"
+  line2="${model_part}  ${agent_part}"
 else
-  line3="${agent_part}"
+  line2="${agent_part}"
 fi
 
-out="${line1}"$'\n'"${line3}"
-[ -n "$line2" ] && out="${out}"$'\n'"${line2}"
+out="${line1}"$'\n'"${line2}"
+[ -n "$line3" ] && out="${out}"$'\n'"${line3}"
 [ -n "$line4" ] && out="${out}"$'\n'"${line4}"
 printf "%s" "$out"
